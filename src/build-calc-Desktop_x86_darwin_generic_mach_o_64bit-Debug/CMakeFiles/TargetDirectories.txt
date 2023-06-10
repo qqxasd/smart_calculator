@@ -1,0 +1,4 @@
+/Users/sirenash/C7_SmartCalc_v1.0-1/src/build-calc-Desktop_x86_darwin_generic_mach_o_64bit-Debug/CMakeFiles/calc.dir
+/Users/sirenash/C7_SmartCalc_v1.0-1/src/build-calc-Desktop_x86_darwin_generic_mach_o_64bit-Debug/CMakeFiles/edit_cache.dir
+/Users/sirenash/C7_SmartCalc_v1.0-1/src/build-calc-Desktop_x86_darwin_generic_mach_o_64bit-Debug/CMakeFiles/rebuild_cache.dir
+/Users/sirenash/C7_SmartCalc_v1.0-1/src/build-calc-Desktop_x86_darwin_generic_mach_o_64bit-Debug/CMakeFiles/calc_autogen.dir
