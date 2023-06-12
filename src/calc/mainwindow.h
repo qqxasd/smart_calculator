@@ -76,6 +76,8 @@ private slots:
 
     void on_mod_button_clicked();
 
+    void on_digit_1_button_pressed();
+
 private:
     Ui::MainWindow *ui;
 };
