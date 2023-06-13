@@ -58,3 +58,70 @@ void remove_queue(queue *q) {
     q = next;
   }
 }
+
+int parse_long_func(char *to_parse, info *inform, int *read) {
+  int er = 0;
+  if (!strncmp(to_parse, "mod", 3)) {
+    inform->is_num = 0;
+    inform->action_or_x = MOD;
+    *read = 3;
+  } else if (!strncmp(to_parse, "sqrt", 4)) {
+    inform->is_num = 0;
+    inform->action_or_x = SQRT;
+    *read = 4;
+  } else if (!strncmp(to_parse, "sin", 3)) {
+    inform->is_num = 0;
+    inform->action_or_x = SIN;
+    *read = 3;
+  } else if (!strncmp(to_parse, "tan", 3)) {
+    inform->is_num = 0;
+    inform->action_or_x = TAN;
+    *read = 3;
+  } else if (!strncmp(to_parse, "acos", 4)) {
+    inform->is_num = 0;
+    inform->action_or_x = ACOS;
+    *read = 4;
+  } else if (!strncmp(to_parse, "cos", 3)) {
+    inform->is_num = 0;
+    inform->action_or_x = COS;
+    *read = 3;
+  } else if (!strncmp(to_parse, "asin", 4)) {
+    inform->is_num = 0;
+    inform->action_or_x = ASIN;
+    *read = 4;
+  } else if (!strncmp(to_parse, "atan", 4)) {
+    inform->is_num = 0;
+    inform->action_or_x = ATAN;
+    *read = 4;
+  } else if (!strncmp(to_parse, "ln", 2)) {
+    inform->is_num = 0;
+    inform->action_or_x = LN;
+    *read = 2;
+  } else if (!strncmp(to_parse, "log", 3)) {
+    inform->is_num = 0;
+    inform->action_or_x = LOG;
+    *read = 3;
+  } else {
+    er = 1;
+  }
+  return er; 
+}
+ 
+int create_info(info *inform, char *to_write, int *read) {
+  int er = 0;
+  if (*to_write <= '0' && *to_write >= '9') {
+    *read = sscanf(to_write, "%lf", &inform->value);
+  } else if (*to_write == '*' || *to_write == '/' || *to_write == '+' || *to_write == '-' || *to_write == '^' || *to_write == ')' || *to_write == '('){
+    inform->is_num = 0;
+    inform->action_or_x = *to_write;
+    *read = 1;
+  } else if (*to_write == 'x') {
+    inform->is_num = 0;
+    inform->action_or_x = 'x';
+    *read = 1;
+  } else if (parse_long_func(to_write, inform, read));
+  else {
+    er = 1;
+  } 
+  return er; 
+}
