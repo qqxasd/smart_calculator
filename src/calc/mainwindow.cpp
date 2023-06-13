@@ -103,3 +103,5 @@ void MainWindow::on_sin_button_clicked() { ui->expression->insert("sin("); }
 void MainWindow::on_sqrt_button_clicked() { ui->expression->insert("sqrt("); }
 
 void MainWindow::on_mod_button_clicked() { ui->expression->insert("mod("); }
+
+

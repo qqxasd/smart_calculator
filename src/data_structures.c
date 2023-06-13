@@ -1,9 +1,15 @@
 #include "data_structures.h"
 
-stack *stack_init(info *value) {
+  int action_priority;
+  double value;
+  char action;
+
+stack *stack_init(int action_priority, double value, int action) {
   stack *s = malloc(sizeof(stack));
-  s->prev = 0;
-  s->info = *value;
+  s->prev = NULL;
+  s->action_priority = action_priority;
+  s->value = value;
+  s->value = action;
   return s;
 }
 
@@ -15,28 +21,42 @@ void stack_remove(stack *s) {
   }
 }
 
-void pop(stack **st, info *value) {
-  *value = (*st)->info;
-  *st = (*st)->prev;
+void remove_element_from_stack(stack **s) {
+  void *tmp = *s; 
+  free(*s);
+  *s = tmp;
 }
 
-void push(stack **st, info *value) {
+// void pop(stack **st, int action_priority, double value, int action) {
+//   action_priority = (*st)->action_priority;
+//   action = (*st)->action;
+//   value = (*st)->value;
+//   *st = (*st)->prev;
+// }
+
+void push(stack **st, int action_priority, double value, int action) {
   stack *new = malloc(sizeof(stack));
-  new->info = *value;
+  new->action_priority = action_priority;
+  new->value = value;
+  new->action = action;
   new->prev = *st;
-  *st = &new;
+  *st = new;
 }
 
-queue *queue_init(info *value) {
-  queue *l = malloc(sizeof(queue));
-  l->info = *value;
+queue *queue_init(int action_priority, double value, int action) {
+  queue *l = calloc(1, sizeof(queue));
+  l->action_priority = action_priority;
+  l->value = value;
+  l->action = action;
   l->next = NULL;
   return l;
 }
 
-void add_node_to_queue(queue *q, info *value) {
-  queue *node = malloc(sizeof(queue));
-  node->info = *value;
+void add_node_to_queue(queue *q, int action_priority, double value, int action) {
+  queue *node = calloc(1, sizeof(queue));
+  node->action_priority = action_priority;
+  node->value = value;
+  node->action = action;
   while (q->next != NULL) {
     q = q->next;
   }
@@ -44,8 +64,16 @@ void add_node_to_queue(queue *q, info *value) {
   q->next = node;
 }
 
-void take_from_queue(queue **q, info *dest) {
-  *dest = (*q)->info;
+void remove_node_from_queue(queue **q) {
+  void *tmp = *q;
+  free(*q);
+  *q = tmp;
+}
+
+void take_node_from_queue(queue **q, int *action_priority, double *value, int *action) {
+  *action_priority = (*q)->action_priority;
+  *value = (*q)->value;
+  *action = (*q)->action;
   void *tmp = (*q)->next;
   free(*q);
   *q = tmp;
@@ -59,47 +87,47 @@ void remove_queue(queue *q) {
   }
 }
 
-int parse_long_func(char *to_parse, info *inform, int *read) {
+int parse_long_func(char *to_parse, int *action_priority, double *value, int *action, int *read) {
   int er = 0;
   if (!strncmp(to_parse, "mod", 3)) {
-    inform->is_num = 0;
-    inform->action_or_x = MOD;
+    *action_priority = 5;
+    *action = MOD;
     *read = 3;
   } else if (!strncmp(to_parse, "sqrt", 4)) {
-    inform->is_num = 0;
-    inform->action_or_x = SQRT;
+    *action_priority = 5;
+    *action = SQRT;
     *read = 4;
   } else if (!strncmp(to_parse, "sin", 3)) {
-    inform->is_num = 0;
-    inform->action_or_x = SIN;
+    *action_priority = 5;
+    *action = SIN;
     *read = 3;
   } else if (!strncmp(to_parse, "tan", 3)) {
-    inform->is_num = 0;
-    inform->action_or_x = TAN;
+    *action_priority = 5;
+    *action = TAN;
     *read = 3;
   } else if (!strncmp(to_parse, "acos", 4)) {
-    inform->is_num = 0;
-    inform->action_or_x = ACOS;
+    *action_priority = 5;
+    *action = ACOS;
     *read = 4;
   } else if (!strncmp(to_parse, "cos", 3)) {
-    inform->is_num = 0;
-    inform->action_or_x = COS;
+    *action_priority = 5;
+    *action = COS;
     *read = 3;
   } else if (!strncmp(to_parse, "asin", 4)) {
-    inform->is_num = 0;
-    inform->action_or_x = ASIN;
+    *action_priority = 5;
+    *action = ASIN;
     *read = 4;
   } else if (!strncmp(to_parse, "atan", 4)) {
-    inform->is_num = 0;
-    inform->action_or_x = ATAN;
+    *action_priority = 5;
+    *action = ATAN;
     *read = 4;
   } else if (!strncmp(to_parse, "ln", 2)) {
-    inform->is_num = 0;
-    inform->action_or_x = LN;
+    *action_priority = 5;
+    *action = LN;
     *read = 2;
   } else if (!strncmp(to_parse, "log", 3)) {
-    inform->is_num = 0;
-    inform->action_or_x = LOG;
+    *action_priority = 5;
+    *action = LOG;
     *read = 3;
   } else {
     er = 1;
@@ -107,19 +135,29 @@ int parse_long_func(char *to_parse, info *inform, int *read) {
   return er; 
 }
  
-int create_info(info *inform, char *to_write, int *read) {
+int create_info(int *action_priority, double *value, int *action, char *to_write, int *read) {
   int er = 0;
   if (*to_write <= '0' && *to_write >= '9') {
-    *read = sscanf(to_write, "%lf", &inform->value);
+    *read = sscanf(to_write, "%lf", &*value);
   } else if (*to_write == '*' || *to_write == '/' || *to_write == '+' || *to_write == '-' || *to_write == '^' || *to_write == ')' || *to_write == '('){
-    inform->is_num = 0;
-    inform->action_or_x = *to_write;
+    if (*to_write == '(' || *to_write == ')') {
+      *action_priority = 1;
+    }
+    if (*to_write == '+' || *to_write == '-') {
+      *action_priority = 2;
+    }
+    if (*to_write == '*' || *to_write == '/') {
+      *action_priority = 3;
+    }
+    if (*to_write == '^') {
+      *action_priority = 4;
+    }
+    *action = *to_write;
     *read = 1;
   } else if (*to_write == 'x') {
-    inform->is_num = 0;
-    inform->action_or_x = 'x';
+    *action_priority = -1;
     *read = 1;
-  } else if (parse_long_func(to_write, inform, read));
+  } else if (parse_long_func(to_write, action_priority, value, action, read));
   else {
     er = 1;
   } 

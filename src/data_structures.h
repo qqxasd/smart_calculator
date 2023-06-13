@@ -16,28 +16,27 @@
 #include <string.h>
 
 typedef struct {
-  int is_num;
+  int action_priority;
   double value;
-  char action_or_x;
-} info;
-
-typedef struct {
-  info info;
+  char action;
   void *next;
 } queue;
 
 typedef struct {
-  info info;
+  int action_priority;
+  double value;
+  char action;
   void *prev;
 } stack;
 
-stack *stack_init(info *value);
-void pop(stack **st, info *value);
-void push(stack **st, info *value);
-queue *queue_init(info *value);
-void add_node_to_queue(queue *q, info *value);
-void take_from_queue(queue **q, info *dest);
+void remove_element_from_stack(stack **s);
+stack *stack_init(int action_priority, double value, int action);
+void pop(stack **st, int action_priority, double value, int action);
+void push(stack **st, int action_priority, double value, int action);
+queue *queue_init(int action_priority, double value, int action);
+void add_node_to_queue(queue *q, int action_priority, double value, int action);
+void take_node_from_queue(queue **q, int *action_priority, double *value, int *action);
 void remove_queue(queue *q);
-int create_info(info *inform, char *to_write, int *read);
+int create_info(int *action_priority, double *value, int *action, char *to_write, int *read);
 
 #endif
