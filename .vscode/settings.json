@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "data_structures.h": "c",
-        "polish_notation.h": "c"
+        "polish_notation.h": "c",
+        "stdlib.h": "c"
     }
 }

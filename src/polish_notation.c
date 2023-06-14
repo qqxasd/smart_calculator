@@ -1,79 +1,118 @@
 #include "polish_notation.h"
+
 #include "data_structures.h"
 
-int parse_input_str(char *str, queue *queued_str);
+int parse_input_str(char *str, queue **queued_str, double x_val);
 queue *input_to_polish(queue *input, int *er);
 double calculate(queue *polish_str, double x_val);
+double calculate(queue *polish_str, double x_val) { return 1; }
 
-int calculate_polish(char *str, double x_val, double *result) {
+void print_q(queue *q) {
+  while (q != NULL) {
+    printf("val -> %lf prior -> %d action -> %d |%c|\n", q->value,
+           q->action_priority, q->action, q->action);
+    q = q->next;
+  }
+}
+
+int main() {
+  int x_val = 999;
+  char *str = "2 ^ 4 ^ 5";
+  double result = 0;
   int er = 0;
-  queue queued_str;
-  er = parse_input_str(str, &queued_str);
+  queue *queued_str;
+  er = parse_input_str(str, &queued_str, x_val);
+  print_q(queued_str);
   if (!er) {
-    queue *polish_str = input_to_polish(&queued_str, &er);
-    if (!er) {
-    *result = calculate(polish_str, x_val);
-    remove_queue(polish_str);
-    } else {
-      remove_queue(&queued_str);
+    queue *polish_str = input_to_polish(queued_str, &er);
+    if (er) {
+      // result = calculate(polish_str, x_val);
     }
+    printf("\n\n\n");
+    print_q(polish_str);
   }
   return er;
 }
 
-int parse_input_str(char *str, queue *queued_str) {
+
+// int calculate_polish(char *str, double x_val, double *result) {
+//   int er = 0;
+//   queue *queued_str;
+//   er = parse_input_str(str, &queued_str);
+//   if (!er) {
+//     queue *polish_str = input_to_polish(&queued_str, &er);
+//     if (!er) {
+//     *result = calculate(polish_str, x_val);
+//     remove_queue(polish_str);
+//     } else {
+//       remove_queue(&queued_str);
+//     }
+//   }
+//   return er;
+// }
+
+int parse_input_str(char *str, queue **queued_str, double x_val) {
   if (!str || *str == '\0') {
     return FAILURE;
   }
-  int just_read = 0;
-  queue queued_str;
   int action_priority = 0;
   double value = 0;
   int action = 0;
+  int minus = 1;
+  int action_priority_last = 0;
   int er = SUCCESS;
-  if (!(er = create_info(&action_priority, &value, &action, str, &just_read))) {
-    queued_str = queue_init(action_priority, value, action);
-    str += just_read;
-    just_read = 0;
-    while (!create_info(&action_priority, &value, &action, str, &just_read) && er == 0) {
-      if (action_priority == 0 && (action == '+' || action == '-') &&
-          queued_str->action_priority == 0) {
-        int minus = action == '-' ? -1 : 1;
-        if (!create_info(&action_priority, &value, &action, str, &just_read)) {
-          if (action_priority == 0 && (action == '*' || action == '/' || action == '+' ||
-                              action == '-' || action == '^')) {
-            er = 1;
-          } else {
-            add_node_to_queue(&queued_str, action_priority, minus * value, action);
-            str += just_read;
-            just_read = 0;
-          }
-        } else {
-          er = FAILURE;
-        }
+  if (!(er = create_info(&action_priority, &value, &action, &str, minus,
+                         x_val))) {
+    if (action_priority == 0) {
+      *queued_str = queue_init(action_priority, value, action);
+      action_priority_last = action_priority, action = 0, value = 0, action_priority = 0;
+    } else {
+      minus = action == '-' ? -1 : 1;
+      action = 0, action_priority = 0;
+    }
+    while (*str && !(er = create_info(&action_priority, &value, &action, &str,
+                                      minus, x_val))) {
+      if (action_priority == 2 && (*queued_str) != NULL && action_priority_last != 0 && action_priority_last != 1) {
+        minus *= (*queued_str)->action == '-' ? 1 : -1;
+        action = 0,
+        action_priority = 0;
       } else {
-        add_node_to_queue(&queued_str, action_priority, value, action);
-        str += just_read;
-        just_read = 0;
+        *queued_str == NULL
+            ? (*queued_str = queue_init(action_priority, value, action))
+            : add_node_to_queue(*queued_str, action_priority, value, action);
+        action_priority_last = action_priority, 
+        action = 0, value = 0, action_priority = 0, minus = 1;
       }
     }
   }
   return er;
 }
 
-
-
 queue *input_to_polish(queue *input, int *er) {
-  if (!(input->action_priority == 1 || input->action_priority == 2)) {
-    return FAILURE;
-  }
+  // if (!(input->action_priority == 1 || input->action_priority == 2)) {
+  //   *er = FAILURE;
+  //   return NULL;
+  // }
   stack *st = {0};
-  queue *result = queue_init(input->action_priority, input->value, input->action);
-  remove_node_from_queue(&input);
+  queue *result = {0};
+  if (input->action_priority != 0) {
+    st = stack_init(input->action_priority, input->value, input->action);
+    remove_node_from_queue(&input);
+  } else {
+    result =
+        queue_init(input->action_priority, input->value, input->action);
+    remove_node_from_queue(&input);
+  }
   while (input && !*er) {
-    if (input->action_priority == 0 || input->action_priority == -1) {
-      add_node_to_queue(result, input->action_priority, input->value, input->action);
-      remove_node_from_queue(&input);
+    if (input->action_priority == 0) {
+      if (result != NULL) {
+                add_node_to_queue(result, input->action_priority, input->value,
+                        input->action);
+        remove_node_from_queue(&input);
+      } else {
+        result = queue_init(input->action_priority, input->value, input->action);
+        remove_node_from_queue(&input);
+        }
     } else {
       if (st == NULL) {
         st = stack_init(input->action_priority, input->value, input->action);
@@ -81,27 +120,29 @@ queue *input_to_polish(queue *input, int *er) {
       } else {
         if (input->action == '(') {
           push(&st, input->action_priority, input->value, input->action);
-        }
-        else if (input->action == ')') {
-          while(st->action != '(' && st->prev != NULL) {
-            add_node_to_queue(result, input->action_priority, input->value, input->action);
+          remove_node_from_queue(&input);
+        } else if (input->action == ')') {
+          while (st->action != '(' && st->prev != NULL) {
+            add_node_to_queue(result, st->action_priority, st->value,
+                              st->action);
             remove_element_from_stack(&st);
           }
           if (st->action != '(') {
             *er = 1;
           }
           remove_element_from_stack(&st);
-        }
-        else if (input->action_priority >= st->action_priority) {
+          remove_node_from_queue(&input);
+        } else if (input->action_priority >= st->action_priority) {
           push(&st, input->action_priority, input->value, input->action);
-        }
-        else if (input->action_priority < st->action_priority) {
-          while (input->action_priority < st->action_priority && st) {
-          add_node_to_queue(result, st->action_priority, st->value, st->action);
-          remove_element_from_stack(&st);
+          remove_node_from_queue(&input);
+        } else if (input->action_priority < st->action_priority) {
+          while (st && input->action_priority < st->action_priority) {
+            add_node_to_queue(result, st->action_priority, st->value,
+                              st->action);
+            remove_element_from_stack(&st);
           }
           push(&st, input->action_priority, input->value, input->action);
-          remove_element_from_queue(&input);
+          remove_node_from_queue(&input);
         }
       }
     }
@@ -109,6 +150,6 @@ queue *input_to_polish(queue *input, int *er) {
   while (st) {
     add_node_to_queue(result, st->action_priority, st->value, st->action);
     remove_element_from_stack(&st);
-  } 
+  }
   return result;
 }

@@ -10,10 +10,11 @@
 #define COS 15
 #define ASIN 16
 #define ATAN 17
-#define LN 2
-#define LOG 3
-
+#define LN 18
+#define LOG 19
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h> 
 
 typedef struct {
   int action_priority;
@@ -29,6 +30,7 @@ typedef struct {
   void *prev;
 } stack;
 
+void remove_node_from_queue(queue **q);
 void remove_element_from_stack(stack **s);
 stack *stack_init(int action_priority, double value, int action);
 void pop(stack **st, int action_priority, double value, int action);
@@ -37,6 +39,6 @@ queue *queue_init(int action_priority, double value, int action);
 void add_node_to_queue(queue *q, int action_priority, double value, int action);
 void take_node_from_queue(queue **q, int *action_priority, double *value, int *action);
 void remove_queue(queue *q);
-int create_info(int *action_priority, double *value, int *action, char *to_write, int *read);
+int create_info(int *action_priority, double *value, int *action, char **to_write, int minus, double x_val);
 
 #endif

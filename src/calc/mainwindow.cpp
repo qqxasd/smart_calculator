@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include "../data_structures.h"
 #include <QPixmap>
 
 #include "./ui_mainwindow.h"
