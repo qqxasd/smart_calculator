@@ -76,6 +76,10 @@ private slots:
 
     void on_mod_button_clicked();
 
+    void on_tg_button_clicked();
+
+    void on_ctg_button_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

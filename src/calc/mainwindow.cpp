@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "../data_structures.h"
+// #include "../data_structures.h"
 #include <QPixmap>
 
 #include "./ui_mainwindow.h"
@@ -102,6 +102,17 @@ void MainWindow::on_sin_button_clicked() { ui->expression->insert("sin("); }
 
 void MainWindow::on_sqrt_button_clicked() { ui->expression->insert("sqrt("); }
 
-void MainWindow::on_mod_button_clicked() { ui->expression->insert("mod("); }
+void MainWindow::on_mod_button_clicked() { ui->expression->insert("mod"); }
 
+
+void MainWindow::on_tg_button_clicked()
+{
+    ui->expression->insert("tg(");
+}
+
+
+void MainWindow::on_ctg_button_clicked()
+{
+    ui->expression->insert("ctg(");
+}
 

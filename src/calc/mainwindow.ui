@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>237</height>
+    <width>395</width>
+    <height>238</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -586,36 +586,36 @@ border-color:white;
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>130</x>
       <y>160</y>
-      <width>391</width>
+      <width>261</width>
       <height>23</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLineEdit" name="lineEdit_4">
+      <widget class="QLineEdit" name="x_min">
        <property name="text">
         <string>x min</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_3">
+      <widget class="QLineEdit" name="x_max">
        <property name="text">
         <string>x max</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="y_min">
        <property name="text">
         <string>y min</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="y_max">
        <property name="text">
         <string>y max </string>
        </property>
@@ -623,13 +623,61 @@ border-color:white;
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="ctg_button">
+    <property name="geometry">
+     <rect>
+      <x>65</x>
+      <y>160</y>
+      <width>65</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {background-color: rgb(230, 146, 82);
+color: black;
+border-style: outset;
+border-width: 2px;
+border-color: rgb(32, 32, 32);
+}
+QPushButton:pressed {
+border-color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>ctg</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="tg_button">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>160</y>
+      <width>65</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {background-color: rgb(230, 146, 82);
+color: black;
+border-style: outset;
+border-width: 2px;
+border-color: rgb(32, 32, 32);
+}
+QPushButton:pressed {
+border-color:white;
+}</string>
+    </property>
+    <property name="text">
+     <string>tg</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>394</width>
+     <width>395</width>
      <height>24</height>
     </rect>
    </property>

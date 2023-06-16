@@ -142,7 +142,16 @@ int parse_long_func(char **to_parse, int *action_priority, double *value,
     *action = LOG;
     *value = minus;
     (*to_parse) += 3;
-  } else {
+  } else if (!strncmp(*to_parse, "tan", 2)) {
+    *action_priority = 5;
+    *action = TG; 
+    (*to_parse) += 2;
+  } else if (!strncmp(*to_parse, "ctan", 3)) {
+    *action_priority = 5;
+    *action = CTG;
+    (*to_parse) += 3;
+  }
+    else {
     er = 1;
   }
   return er;
@@ -155,7 +164,10 @@ int create_info(int *action_priority, double *value, int *action,
     (*to_write)++;
   }
   if (**to_write >= '0' && **to_write <= '9') {
-    (*to_write) += sscanf(*to_write, "%lf", value);
+    sscanf(*to_write, "%lf", value);
+    while (*to_write && **to_write >= '0' && **to_write <= '9' || **to_write == '.') {
+      (*to_write)++;
+    }
     *value *= minus;
   } else if (**to_write == '*' || **to_write == '/' || **to_write == '+' ||
              **to_write == '-' || **to_write == '^' || **to_write == ')' ||
@@ -176,7 +188,7 @@ int create_info(int *action_priority, double *value, int *action,
     *value = x_val * minus;
     (*to_write)++;
   } else {
-    parse_long_func(to_write, action_priority, value, action, minus);
+    er = parse_long_func(to_write, action_priority, value, action, minus);
   }
   return er;
 }

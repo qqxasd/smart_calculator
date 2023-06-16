@@ -12,6 +12,8 @@
 #define ATAN 17
 #define LN 18
 #define LOG 19
+#define TG 20
+#define CTG 21
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h> 
