@@ -16,3 +16,6 @@ clean:
 dvi:
 
 dist:
+
+test:
+	gcc -ggdb 

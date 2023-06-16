@@ -93,12 +93,12 @@ int parse_long_func(char **to_parse, int *action_priority, double *value,
                     int *action, int minus) {
   int er = 0;
   if (!strncmp(*to_parse, "mod", 3)) {
-    *action_priority = 5;
+    *action_priority = 3;
     *action = MOD;
     *value = minus;
     (*to_parse) += 3;
   } else if (!strncmp(*to_parse, "sqrt", 4)) {
-    *action_priority = 5;
+    *action_priority = 4;
     *action = SQRT;
     *value = minus;
     (*to_parse) += 4;
