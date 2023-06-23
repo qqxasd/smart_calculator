@@ -7,6 +7,7 @@
         "complex": "c",
         "cmath": "c",
         "__locale": "c",
-        "functional": "c"
+        "functional": "c",
+        "stdio.h": "c"
     }
 }

@@ -1,8 +1,7 @@
 #include "mainwindow.h"
-// #include "../data_structures.h"
 #include <QPixmap>
-
 #include "./ui_mainwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -37,11 +36,6 @@ MainWindow::~MainWindow() {
 //     }
 // }
 
-// void MainWindow::on_one_clicked()
-//{
-//     ui->aboba->setText("aboba");
-// }
-
 void MainWindow::on_digit_1_button_clicked() { ui->expression->insert("1"); }
 
 void MainWindow::on_digit_2_button_clicked() { ui->expression->insert("2"); }
@@ -64,7 +58,20 @@ void MainWindow::on_digit_0_button_clicked() { ui->expression->insert("0"); }
 
 void MainWindow::on_dot_button_clicked() { ui->expression->insert("."); }
 
-void MainWindow::on_eq_button_clicked() { ui->expression->insert("9"); }
+void MainWindow::on_eq_button_clicked() {
+         QByteArray text = ui->expression->text().toLocal8Bit();
+         char *str = text.data();
+         double result = 0;
+         int error = calculate_polish(str, 10, &result);
+         if (!error) {
+             QString strResult = QString::number(result);
+             ui->result->setText(strResult);
+             ui->status->setText("OK");
+         } else {
+             ui->status->setText("FAIL");
+         }
+
+}
 
 void MainWindow::on_clear_button_clicked() { ui->expression->clear(); }
 
@@ -107,12 +114,18 @@ void MainWindow::on_mod_button_clicked() { ui->expression->insert("mod"); }
 
 void MainWindow::on_tg_button_clicked()
 {
-    ui->expression->insert("tg(");
+    ui->expression->insert("tan(");
 }
 
 
 void MainWindow::on_ctg_button_clicked()
 {
-    ui->expression->insert("ctg(");
+    ui->expression->insert("ctan(");
+}
+
+
+void MainWindow::on_graph_button_clicked()
+{
+    graph.show();
 }
 

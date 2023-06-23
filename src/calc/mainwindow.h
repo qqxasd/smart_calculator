@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+extern "C" {
+    #include "polish/data_structures.h"
+    #include "polish/polish_notation.h"
+}
+
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -80,7 +86,10 @@ private slots:
 
     void on_ctg_button_clicked();
 
+    void on_graph_button_clicked();
+
 private:
     Ui::MainWindow *ui;
+    graph graph;
 };
 #endif // MAINWINDOW_H

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>395</width>
-    <height>238</height>
+    <height>259</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,7 +147,7 @@ QPushButton:pressed{
       </widget>
      </item>
      <item row="0" column="4">
-      <widget class="QLineEdit" name="status">
+      <widget class="QLineEdit" name="result">
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -347,9 +347,6 @@ QPushButton:pressed{
         <string>4</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="0" colspan="4">
-      <widget class="QLineEdit" name="expression"/>
      </item>
      <item row="3" column="5">
       <widget class="QPushButton" name="mult_button">
@@ -581,6 +578,16 @@ border-color:white;
        </property>
       </widget>
      </item>
+     <item row="0" column="0" colspan="3">
+      <widget class="QLineEdit" name="expression"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLineEdit" name="status">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
@@ -589,12 +596,24 @@ border-color:white;
       <x>130</x>
       <y>160</y>
       <width>261</width>
-      <height>23</height>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
      <item>
       <widget class="QLineEdit" name="x_min">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>x min</string>
        </property>
@@ -602,6 +621,12 @@ border-color:white;
      </item>
      <item>
       <widget class="QLineEdit" name="x_max">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>x max</string>
        </property>
@@ -609,6 +634,12 @@ border-color:white;
      </item>
      <item>
       <widget class="QLineEdit" name="y_min">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>y min</string>
        </property>
@@ -616,6 +647,12 @@ border-color:white;
      </item>
      <item>
       <widget class="QLineEdit" name="y_max">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>y max </string>
        </property>
@@ -669,6 +706,19 @@ border-color:white;
     </property>
     <property name="text">
      <string>tg</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>113</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x_val</string>
     </property>
    </widget>
   </widget>

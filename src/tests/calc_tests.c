@@ -40,7 +40,7 @@ START_TEST(calc_3) {
 END_TEST
 
 START_TEST(calc_4) {
-  char *str = " tan ( x ) - ctg ( 0.2 ) / ( acos ( 0.1 ) - ln ( 6 ) )";
+  char *str = " tan ( x ) - ctan ( 0.2 ) / ( acos ( 0.1 ) - ln ( 6 ) )";
   double x = 10;
   double answer = 0;
   int success = 0;
@@ -76,7 +76,7 @@ START_TEST(calc_6) {
 END_TEST
 
 START_TEST(calc_7) {
-  char *str = " - ( sqrt ( x ) ^ 12 )";
+  char *str = " - sqrt ( x ) ^ 12 ";
   double x = 10;
   double true_answer = -(pow(sqrt(x), 12));
   double answer = 0;
@@ -109,10 +109,10 @@ Suite *suite_calc(void) {
   tcase_add_test(tc, calc_2);
   tcase_add_test(tc, calc_3);
   tcase_add_test(tc, calc_4);
-  // tcase_add_test(tc, calc_5);
-  // tcase_add_test(tc, calc_6);
-  // tcase_add_test(tc, calc_7);
-  // tcase_add_test(tc, calc_8);
+  tcase_add_test(tc, calc_5);
+  tcase_add_test(tc, calc_6);
+  tcase_add_test(tc, calc_7);
+  tcase_add_test(tc, calc_8);
   suite_add_tcase(s, tc);
 
   return (s);
