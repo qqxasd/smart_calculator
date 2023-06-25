@@ -1,6 +1,7 @@
 #include "graph.h"
 #include "ui_graph.h"
 #include <QVector>
+#include "qcustomplot.h"
 
 graph::graph(QWidget *parent) :
     QWidget(parent),
