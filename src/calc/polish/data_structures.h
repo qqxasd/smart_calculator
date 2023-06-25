@@ -4,7 +4,7 @@
 #define FAILURE 1
 #define MOD 10
 #define SQRT 11
-#define SIN 12 
+#define SIN 12
 #define TAN 13
 #define ACOS 14
 #define COS 15
@@ -14,9 +14,9 @@
 #define LOG 19
 #define TG 20
 #define CTG 21
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <stdio.h> 
+#include <string.h>
 
 typedef struct {
   int action_priority;
@@ -39,8 +39,10 @@ void pop(stack **st, int action_priority, double value, int action);
 void push(stack **st, int action_priority, double value, int action);
 queue *queue_init(int action_priority, double value, int action);
 void add_node_to_queue(queue *q, int action_priority, double value, int action);
-void take_node_from_queue(queue **q, int *action_priority, double *value, int *action);
+void take_node_from_queue(queue **q, int *action_priority, double *value,
+                          int *action);
 void remove_queue(queue *q);
-int create_info(int *action_priority, double *value, int *action, char **to_write, int minus, double x_val);
+int create_info(int *action_priority, double *value, int *action,
+                char **to_write, int minus, double x_val);
 
 #endif

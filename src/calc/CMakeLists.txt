@@ -11,8 +11,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Charts)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Charts)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Charts )
+#find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Charts)
+find_package(Qt6PrintSupport REQUIRED)
 
 set(PROJECT_SOURCES
         polish/polish_notation.c
@@ -54,6 +55,7 @@ else()
 endif()
 
 target_link_libraries(calc PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(calc PRIVATE Qt6::PrintSupport)
 
 set_target_properties(calc PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

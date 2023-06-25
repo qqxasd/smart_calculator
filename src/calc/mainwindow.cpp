@@ -1,13 +1,17 @@
 #include "mainwindow.h"
+
 #include <QPixmap>
+
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-  //    connect(ui->EqualButton, SIGNAL(clicked()), this,
+  graph = new class graph;
+  //      connect(ui->EqualButton, SIGNAL(clicked()), this,
   //    SLOT(s21_equal_clicked())); connect(ui->count, SIGNAL(clicked()), this,
   //    SLOT (s21_count_clicked)));
+  connect(this, &MainWindow::signal, graph, &graph::slot);
 }
 
 MainWindow::~MainWindow() {
@@ -58,18 +62,18 @@ void MainWindow::on_digit_0_button_clicked() { ui->expression->insert("0"); }
 void MainWindow::on_dot_button_clicked() { ui->expression->insert("."); }
 
 void MainWindow::on_eq_button_clicked() {
-         QByteArray text = ui->expression->text().toLocal8Bit();
-         char *str = text.data();
-         double result = 0;
-         int error = calculate_polish(str, 10, &result);
-         if (!error) {
-             QString strResult = QString::number(result);
-             ui->result->setText(strResult);
-             ui->status->setText("OK");
-         } else {
-             ui->status->setText("FAIL");
-         }
-
+  QByteArray text = ui->expression->text().toLocal8Bit();
+  char *str = text.data();
+  double result = 0;
+  double x_val = ui->x_value->text().toDouble();
+  int error = calculate_polish(str, x_val, &result);
+  if (!error) {
+    QString strResult = QString::number(result);
+    ui->result->setText(strResult);
+    ui->status->setText("OK");
+  } else {
+    ui->status->setText("FAIL");
+  }
 }
 
 void MainWindow::on_clear_button_clicked() { ui->expression->clear(); }
@@ -110,21 +114,40 @@ void MainWindow::on_sqrt_button_clicked() { ui->expression->insert("sqrt("); }
 
 void MainWindow::on_mod_button_clicked() { ui->expression->insert("mod"); }
 
+void MainWindow::on_tg_button_clicked() { ui->expression->insert("tan("); }
 
-void MainWindow::on_tg_button_clicked()
-{
-    ui->expression->insert("tan(");
+void MainWindow::on_ctg_button_clicked() { ui->expression->insert("ctan("); }
+
+int MainWindow::check_info() {
+  int er = 0;
+  if (QString::compare(ui->status->text(), "OK")) {
+    er = 1;
+  }
+  if (ui->x_min->text().toInt() >= ui->x_max->text().toInt()) {
+    ui->status->setText("aboba");
+    er = 1;
+  }
+  if (ui->y_min->text().toInt() >= ui->y_max->text().toInt()) {
+    ui->status->setText("amogus");
+    er = 1;
+  }
+  if (ui->graph_step->text().toDouble() >=
+      ui->x_max->text().toInt() - ui->x_min->text().toInt()) {
+    ui->status->setText("abobus");
+    er = 1;
+  }
+  if (!ui->expression->text().contains("x")) {
+    ui->status->setText("ABOBA+AMOGUS");
+    er = 1;
+  }
+  return er;
 }
 
-
-void MainWindow::on_ctg_button_clicked()
-{
-    ui->expression->insert("ctan(");
+void MainWindow::on_graph_button_clicked() {
+  if (!check_info()) {
+    emit signal(ui->expression->text(), ui->x_min->text().toInt(),
+                ui->x_max->text().toInt(), ui->y_min->text().toInt(),
+                ui->y_max->text().toInt(), ui->graph_step->text().toDouble());
+    graph->show();
+  }
 }
-
-
-void MainWindow::on_graph_button_clicked()
-{
-    graph.show();
-}
-

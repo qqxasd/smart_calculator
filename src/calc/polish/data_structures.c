@@ -1,9 +1,5 @@
 #include "data_structures.h"
 
-int action_priority;
-double value;
-char action;
-
 stack *stack_init(int action_priority, double value, int action) {
   stack *s = malloc(sizeof(stack));
   s->prev = NULL;
@@ -13,26 +9,11 @@ stack *stack_init(int action_priority, double value, int action) {
   return s;
 }
 
-void stack_remove(stack *s) {
-  while (s != NULL) {
-    void *prev = s->prev;
-    free(s);
-    s = prev;
-  }
-}
-
 void remove_element_from_stack(stack **s) {
   void *tmp = (*s)->prev;
   free(*s);
   *s = tmp;
 }
-
-// void pop(stack **st, int action_priority, double value, int action) {
-//   action_priority = (*st)->action_priority;
-//   action = (*st)->action;
-//   value = (*st)->value;
-//   *st = (*st)->prev;
-// }
 
 void push(stack **st, int action_priority, double value, int action) {
   stack *new = malloc(sizeof(stack));
@@ -69,24 +50,6 @@ void remove_node_from_queue(queue **q) {
   void *tmp = (*q)->next;
   free(*q);
   *q = tmp;
-}
-
-void take_node_from_queue(queue **q, int *action_priority, double *value,
-                          int *action) {
-  *action_priority = (*q)->action_priority;
-  *value = (*q)->value;
-  *action = (*q)->action;
-  void *tmp = (*q)->next;
-  free(*q);
-  *q = tmp;
-}
-
-void remove_queue(queue *q) {
-  while (q != NULL) {
-    void *next = q->next;
-    free(q);
-    q = next;
-  }
 }
 
 int parse_long_func(char **to_parse, int *action_priority, double *value,
@@ -132,6 +95,11 @@ int parse_long_func(char **to_parse, int *action_priority, double *value,
     *action = ATAN;
     *value = minus;
     (*to_parse) += 4;
+  } else if (!strncmp(*to_parse, "ctan", 4)) {
+    *action_priority = 5;
+    *action = CTG;
+    *value = minus;
+    (*to_parse) += 4;
   } else if (!strncmp(*to_parse, "ln", 2)) {
     *action_priority = 5;
     *action = LN;
@@ -142,18 +110,7 @@ int parse_long_func(char **to_parse, int *action_priority, double *value,
     *action = LOG;
     *value = minus;
     (*to_parse) += 3;
-  } else if (!strncmp(*to_parse, "tan", 3)) {
-    *action_priority = 5;
-    *action = TG; 
-    *value = minus;
-    (*to_parse) += 3;
-  } else if (!strncmp(*to_parse, "ctan", 4)) {
-    *action_priority = 5;
-    *action = CTG;
-    *value = minus;
-    (*to_parse) += 4;
-  }
-    else {
+  } else {
     er = 1;
   }
   return er;
@@ -167,7 +124,8 @@ int create_info(int *action_priority, double *value, int *action,
   }
   if (**to_write >= '0' && **to_write <= '9') {
     sscanf(*to_write, "%lf", value);
-    while (*to_write && **to_write >= '0' && **to_write <= '9' || **to_write == '.') {
+    while (*to_write && **to_write >= '0' && **to_write <= '9' ||
+           **to_write == '.') {
       (*to_write)++;
     }
     *value *= minus;
