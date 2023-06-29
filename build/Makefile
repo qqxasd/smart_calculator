@@ -15,7 +15,7 @@ uninstall:
 	rm -rf build_files
 
 clean:
-	rm -rf build_files *.dvi *.tar *.o test *.gcda *.gcno report *.info
+	rm -rf *.dvi *.tar *.o test *.gcda *.gcno report *.info
 
 dist: clean uninstall install
 	mkdir dist.tar
@@ -38,3 +38,20 @@ gcov_report: clean uninstall test
 	lcov -t "test" -o test.info -c -d .
 	genhtml -o report test.info
 	open report/index.html
+
+help:
+	echo Targets that makefile provides are: 
+
+	# install: make the app and install it into build directory.
+
+	# uninstall: deletes the app and build_files
+
+	# clean: deletes tar and .gcda .gcno files that used for gcov_report
+
+	# dist: makes the dist dir with archived obj files
+
+	# debug: builds C functions into tmp.c file that must be created manually with the func you want to debug
+
+	# test: tests the C functions using check.h v 0.15.2
+
+	# gcov_report: tests the C functions and make report/index.html with the info about code coverage 
