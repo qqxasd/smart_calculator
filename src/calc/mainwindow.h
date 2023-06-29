@@ -90,12 +90,14 @@ class MainWindow : public QMainWindow {
 
   void on_graph_button_clicked();
 
+  void on_x_button_clicked();
+
  private:
   Ui::MainWindow *ui;
   graph *graph;
   int check_info();
 
  signals:
-  void signal(QString, int, int, int, int, double);
+  void signal(QString);
 };
 #endif  // MAINWINDOW_H

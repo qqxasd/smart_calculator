@@ -8,36 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   graph = new class graph;
-  //      connect(ui->EqualButton, SIGNAL(clicked()), this,
-  //    SLOT(s21_equal_clicked())); connect(ui->count, SIGNAL(clicked()), this,
-  //    SLOT (s21_count_clicked)));
   connect(this, &MainWindow::signal, graph, &graph::slot);
 }
 
-MainWindow::~MainWindow() {
-  delete ui;
-  //    QString text = ui->expression->text();
-}
-
-// void MainWindow::s21_equal_clicked() {
-//     QString text = ui->expression->text();
-//     std::string str2 = text.toStdString();
-//     const char *str = str2.c_str();
-//     int error = 0;
-//     if (ui->expression->text().contains("x")) {
-//         s21_null_fields();
-//         s21_draw_graph(str);
-//     }else {
-//         double result = parse_str(str, &error, 0);
-//         if (!error) {
-//             QString strResult = QString::number(result);
-//             ui->Result_label->setText(strResult);
-//         }
-//         else {
-//             ui->Result_label->setText("ERROR");
-//         }
-//     }
-// }
+MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::on_digit_1_button_clicked() { ui->expression->insert("1"); }
 
@@ -118,36 +92,25 @@ void MainWindow::on_tg_button_clicked() { ui->expression->insert("tan("); }
 
 void MainWindow::on_ctg_button_clicked() { ui->expression->insert("ctan("); }
 
-int MainWindow::check_info() {
-  int er = 0;
-  if (QString::compare(ui->status->text(), "OK")) {
-    er = 1;
-  }
-  if (ui->x_min->text().toInt() >= ui->x_max->text().toInt()) {
-    ui->status->setText("aboba");
-    er = 1;
-  }
-  if (ui->y_min->text().toInt() >= ui->y_max->text().toInt()) {
-    ui->status->setText("amogus");
-    er = 1;
-  }
-  if (ui->graph_step->text().toDouble() >=
-      ui->x_max->text().toInt() - ui->x_min->text().toInt()) {
-    ui->status->setText("abobus");
-    er = 1;
-  }
+void MainWindow::on_x_button_clicked() { ui->expression->insert("x"); }
+
+int MainWindow::check_info() {  // checks that the func is valid
   if (!ui->expression->text().contains("x")) {
-    ui->status->setText("ABOBA+AMOGUS");
-    er = 1;
+    return FAILURE;
   }
-  return er;
+  QByteArray text = ui->expression->text().toLocal8Bit();
+  char *str = text.data();
+  double result = 0;
+  double x_val = 1;
+  int error = calculate_polish(str, x_val, &result);
+  return error;
 }
 
 void MainWindow::on_graph_button_clicked() {
   if (!check_info()) {
-    emit signal(ui->expression->text(), ui->x_min->text().toInt(),
-                ui->x_max->text().toInt(), ui->y_min->text().toInt(),
-                ui->y_max->text().toInt(), ui->graph_step->text().toDouble());
+    emit signal(ui->expression->text());
     graph->show();
+  } else {
+    ui->status->setText("FAIL");
   }
 }

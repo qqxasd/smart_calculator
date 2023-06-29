@@ -17,9 +17,6 @@ uninstall:
 clean:
 	rm -rf build_files *.dvi *.tar *.o test *.gcda *.gcno report *.info
 
-dvi:
-	touch aboba
-
 dist: clean uninstall install
 	mkdir dist.tar
 	cp -r build_files/* dist.tr

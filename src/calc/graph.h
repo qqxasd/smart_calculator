@@ -22,11 +22,12 @@ class graph : public QWidget {
  private:
   Ui::graph *ui;
   void plot(int xBegin, int xEnd, int yBegin, int yEnd, double step);
-  QVector<double> x, y;
 
  public slots:
-  void slot(QString exp, int x_min, int x_max, int y_min, int y_max,
-            double step);
+  void slot(QString exp);
+ private slots:
+  void on_redraw_button_clicked();
+  int check_info(int xBegin, int xEnd, int yBegin, int yEnd);
 };
 
 #endif  // GRAPH_H
